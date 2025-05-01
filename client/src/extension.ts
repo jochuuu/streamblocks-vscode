@@ -81,7 +81,11 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     clientOptions
   );
 
-  context.subscriptions.push(client.start());
+  context.subscriptions.push({ dispose: () => client.stop() });
+
+  client.start().catch((err) => {
+    outputChannel.appendLine('Error starting language client: ' + err.message);
+  });
 }
 
 export async function deactivate(): Promise<void> {
@@ -91,9 +95,6 @@ export async function deactivate(): Promise<void> {
 }
 
 function findJavaExecutable(binname: string): string | null {
-  const isWindows = process.platform === 'win32';
-  binname = isWindows ? `${binname}.exe` : binname;
-
   const javaHome = process.env['JAVA_HOME'];
   if (javaHome) {
     const candidate = path.join(javaHome, 'bin', binname);
