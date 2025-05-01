@@ -1,75 +1,56 @@
 {
     "name": "streamblocks-cal",
-    "displayName": "cal",
+    "displayName": "CAL",
     "description": "CAL Actor Language support",
-    "author": "EPFL VLSC",
-    "license": "GPL-3.0-or-later",
     "version": "0.0.1",
-    "publisher": "streamblcoks",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/streamblocks/streamblocks-vscode"
-    },
+    "publisher": "streamblocks",
     "engines": {
-        "vscode": "^1.40.0"
+      "vscode": "^1.80.0"
     },
-    "categories": [
-        "Programming Languages"
-    ],
+    "categories": ["Programming Languages"],
+    "activationEvents": ["onLanguage:cal"],
+    "main": "./client/out/extension.js",
     "contributes": {
-        "languages": [
-            {
-                "id": "cal",
-                "aliases": [
-                    "CAL Actor Language",
-                    "CAL",
-                    "cal"
-                ],
-                "extensions": [
-                    ".cal",
-                    ".nl",
-                    ".CAL"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "cal",
-                "scopeName": "source.cal",
-                "path": "./syntaxes/cal.tmLanguage.json"
-            }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "StreamBlocks Configuration",
-            "properties": {
-                "streamblocks.home": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "Specifies the folder path of StreamBlocks CAL compiler",
-                    "scope": "window"
-                }
-            }
+      "languages": [
+        {
+          "id": "cal",
+          "aliases": ["CAL Actor Language", "CAL", "cal"],
+          "extensions": [".cal", ".nl", ".CAL"],
+          "configuration": "./language-configuration.json"
         }
+      ],
+      "grammars": [
+        {
+          "language": "cal",
+          "scopeName": "source.cal",
+          "path": "./syntaxes/cal.tmLanguage.json"
+        }
+      ],
+      "configuration": {
+        "type": "object",
+        "title": "StreamBlocks Configuration",
+        "properties": {
+          "streamblocks.home": {
+            "type": ["string", "null"],
+            "default": null,
+            "description": "Path to StreamBlocks CAL compiler",
+            "scope": "window"
+          }
+        }
+      }
     },
-    "activationEvents": [
-        "onLanguage:cal"
-    ],
-    "main": "./client/out/extension",
     "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
-        "compile": "tsc -b",
-        "watch": "tsc -b -w",
-        "postinstall": "cd client && npm install && cd .."
+      "compile": "tsc -p ./client",
+      "watch": "tsc -w -p ./client",
+      "vscode:prepublish": "npm run compile",
+      "test": "node ./client/out/test/runTest.js"
     },
     "devDependencies": {
-        "@types/mocha": "^5.2.0",
-        "@types/node": "^8.0.0",
-        "tslint": "^5.16.0",
-        "typescript": "^3.5.1"
+      "@types/node": "^20.0.0",
+      "@types/vscode": "^1.80.0",
+      "@vscode/test-electron": "^2.3.0",
+      "typescript": "^5.4.0",
+      "vscode-languageclient": "^9.0.1"
     }
-}
+  }
+  
